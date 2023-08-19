@@ -1,0 +1,20 @@
+<div class="d-flex justify-content-center mt-3">
+  <nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <li class="page-item">
+        <button  (click)="ChangePagePreNext('PRE')" class="page-link" href="#" aria-label="Previous" [disabled]="prelock">
+          <span aria-hidden="true">&laquo;</span>
+        </button>
+      </li>
+      <ng-container *ngFor="let i of totalPageView">
+        <li [ngClass]="{'active': i === pageIndex}" class="page-item"><button (click)="ChangePage(i)" class="page-link">{{i}}</button></li>
+      </ng-container>
+      <li class="page-item">
+        <button (click)="ChangePagePreNext('NEXT')" class="page-link" href="#" aria-label="Next" [disabled]="nextlock">
+          <span aria-hidden="true">&raquo;</span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+
+</div>

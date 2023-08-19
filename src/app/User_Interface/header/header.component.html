@@ -1,0 +1,30 @@
+
+<nav>
+    <input type="checkbox" id="check">
+    <label for="check" class="checkbtn">
+        <i class="fa fa-bars" aria-hidden="true"></i>
+    </label>
+    <a class="icon-home" routerLink="/TrangChu"><label class="logo"><i class='bx bxs-hot' style='color:white'></i> LẨU</label></a>
+    <ul>
+      <li ><a routerLink="/Admin">Admin</a></li>
+        <li ><a routerLink="/UuDai">Ưu Đãi</a></li>
+        <li ><a routerLink="/TinTuc">Tin Tức</a></li>
+        <li ><a routerLink="/ThucDon">Thực Đơn</a></li>
+        <li ><a routerLink="/DatBan">Đặt Bàn</a></li>
+        <li ><a routerLink ="/DatMon">Đặt Món</a></li>
+        <li style="line-height: 20px;">
+            <ng-container *ngIf="true; then dangnhaproi else chuadangnhap"></ng-container>
+        </li>
+        <li >
+            <a routerLink="/GioHang"><i class='bx bx-cart-alt' style='color: white;'></i> (5) Giỏ Hàng</a>
+        </li>
+
+    </ul>
+</nav>
+
+<ng-template #dangnhaproi>
+    <app-dropdown-user></app-dropdown-user>
+</ng-template>
+<ng-template #chuadangnhap>
+    <a routerLink="/DangNhap">Đăng nhập/Đăng ký</a>
+</ng-template>

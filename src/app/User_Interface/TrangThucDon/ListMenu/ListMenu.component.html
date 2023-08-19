@@ -1,0 +1,18 @@
+
+  <div class="container mt-3">
+    <div class="row row-cols-2 row-cols-md-2 row-cols-lg-3 g-4">
+        <ng-container *ngFor="let item of listMenuItems">
+            <div class="col">
+              <div class="card">
+                <div class="card-body p-3">
+                  <img style="height: 230px;" src="{{item.menuImage}}" class="card-img-top" alt="Product Image">
+                  <div class="mt-2">
+                    <h6 class="card-title">{{item.menuName}}</h6>
+                    <p class="gia-sp card-text">{{item.price | VNDCurrency}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </ng-container>
+    </div>
+  </div>

@@ -1,0 +1,18 @@
+
+  .datbanbtn-item {
+    margin: 0 10px 10px 10px;
+    padding: 5px 10px;
+    border: 2px solid #db3d23;
+    background: none;
+    border-radius: 5px;
+    color: #db3d23;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  #btnsubmit-datban{
+    background-color: #db3d23;
+    margin-top: 20px;
+    font-weight: bold;
+    color: white;
+    font-size: 20px;
+  }
