@@ -23,6 +23,7 @@ import { HomeAdminComponent } from './Admin_Interface/home-admin/home-admin.comp
 import { CRUDNewsComponent } from './Admin_Interface/CRUDNews/CRUDNews.component';
 import { CRUDMenuComponent } from './Admin_Interface/CRUDMenu/CRUDMenu.component';
 import { CRUDMenuCategoryComponent } from './Admin_Interface/CRUDMenuCategory/CRUDMenuCategory.component';
+import { AuthGuard } from './Guard/jwt-guard.guard';
 
 
 const routes: Routes = [
@@ -40,7 +41,8 @@ const routes: Routes = [
     {path:'CRUDNews/:name', component:CRUDNewsComponent},
     {path:'CRUDMenu/:name', component:CRUDMenuComponent},
     {path:'CRUDMenuCategory/:name', component:CRUDMenuCategoryComponent},
-  ]
+  ],
+  canActivate: [AuthGuard]
 
   },
   {path:'User', component:GiaoDienCaNhanComponent,

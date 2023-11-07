@@ -53,7 +53,7 @@
         <label for="selectInput">Danh mục thực đơn</label>
         <div class="select-container">
           <select id="selectInput" formControlName = "menuCategory" class="form-control">
-            <option value="" selected disabled>Vui lòng chọn</option>
+            <!-- <option value="" selected disabled>Vui lòng chọn</option> -->
             <ng-container *ngFor="let itemsCate of catelist">
               <option [value]="itemsCate.menuCategory_Id">{{itemsCate.categoryName}}</option>
             </ng-container>
@@ -65,7 +65,7 @@
       <input  formControlName = "menuId" type="hidden">
       <div class="d-flex flex-row justify-content-end">
         <button (click)="HideorShowPopup()" class="btn btn-outline-secondary me-2" style="font-weight: bold;" id="btnhuy">Hủy</button>
-        <button type="submit" class="btn" id="btnxacnhan">Thêm địa chỉ</button>
+        <button type="submit" class="btn" id="btnxacnhan">Sửa thực đơn</button>
       </div>
     </form>
   </div>

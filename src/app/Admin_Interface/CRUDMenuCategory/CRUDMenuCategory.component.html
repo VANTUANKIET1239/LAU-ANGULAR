@@ -7,7 +7,7 @@
   <div class="row w-100">
     <div id="filter-menu">
 
-      <input #searchbar type="text" (change)="SearchMenu(searchbar.value)" class="form-control "
+      <input #searchbar type="text" (change)="onSearch(searchbar.value)" class="form-control "
         placeholder="Tìm kiếm...">
 
 
@@ -39,15 +39,20 @@
       <!-- Thêm các hàng dữ liệu khác ở đây -->
     </tbody>
   </table>
+  <div class="text-center w-100" *ngIf="isLoading">
+    <div class="spinner-border text-danger" style="width: 3rem; height: 3rem;" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
   <app-Pagination  [pageIndex]="pageIndex" [totalPage]="totalPage"
     (eventPage)="ChangePage($event)"></app-Pagination>
 </div>
-<app-SuaDanhMucThucDon *ngIf="editpopupconditions" [menuCategoryEdit]="menuCategoryEdit" (hideshowOutputEdit)="HidePopUpMenuEdit()">
+<app-SuaDanhMucThucDon #SuaPopUp>
 </app-SuaDanhMucThucDon>
 
-<app-ThemDanhMucThucDon *ngIf="popupconditions" (hideshowOutput)="ShowHidePopUpMenu()">
+<app-ThemDanhMucThucDon #ThemPopUp>
 </app-ThemDanhMucThucDon>
-
-<app-XacNhanXoaDMTD [removeItemData]="removeItemData" *ngIf="removeConfirmPopupCondition"
-  (hideshowOutputRemoveConfirm)="HidePopUpMenuRemoveConfirm()">
-</app-XacNhanXoaDMTD>
+<app-XacNhanXoaPopUp  #XacNhanXoa
+  [removeItemDataId]="removeItemData.menuCategory_Id"
+  (onRemoveItem) = "onRemove($event)">
+</app-XacNhanXoaPopUp>

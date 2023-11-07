@@ -21,7 +21,7 @@
   width: 100%;
   appearance: none;
   box-shadow: none;
-  -webkit-appearance: none;   
+  -webkit-appearance: none;
 
   background-image: url(../../../assets/Image/down-arrow-solid-24.png);
   background-repeat: no-repeat;
@@ -43,16 +43,16 @@
   background-color: #DAA520;
   color: white;
   font-weight: bold;
-  
- 
+
+
 }
 #thongtin-datban{
   height: 10000px;
   max-height: 650px;
   overflow-y: scroll;
   overflow-x: hidden;
-  scrollbar-width: thin; 
-  scrollbar-color: #f08080 transparent; 
+  scrollbar-width: thin;
+  scrollbar-color: #f08080 transparent;
 }
 #thongtin-datban::-webkit-scrollbar {
   width: 6px; /* Đặt chiều rộng của thanh cuộn */

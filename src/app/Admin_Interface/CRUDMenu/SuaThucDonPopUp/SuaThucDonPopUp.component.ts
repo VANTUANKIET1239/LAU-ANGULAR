@@ -28,8 +28,10 @@ export class SuaThucDonPopUpComponent implements OnInit, AfterViewChecked {
   });;
   public catelist: MenuCategory[] = [];
 
-  @Input() public menuEdit:Menu = new Menu('','','',0,true,true,true);
-  constructor(private formbuilder:FormBuilder,private menuService:MenuService,private menuCategoryService: MenuCategoryService ) {
+  @Input() public menuEdit:Menu = new Menu('','','',0,true,true,true,'','');
+  constructor(private formbuilder:FormBuilder,
+              private menuService:MenuService,
+              private menuCategoryService: MenuCategoryService ) {
     this.menuCategoryService.GetMenuCategories().subscribe((data) =>{
       this.catelist = data;
       this.CreateNewForm();
@@ -52,19 +54,21 @@ export class SuaThucDonPopUpComponent implements OnInit, AfterViewChecked {
   }
 
   public CreateNewForm(){
+
       let currentCategory: MenuCategory[] = this.catelist.filter(x => x.menuCategory_Id == this.menuEdit.menu_Id);
       console.log(this.menuEdit);
-      this.dataform = this.formbuilder.group({
-        menuId:[this.menuEdit.menu_Id],
-        menuName: [this.menuEdit.menuName, [Validators.required]],
-        menuImage: [this.menuEdit.menuImage, [Validators.required]],
-        menuPrice: [this.menuEdit.price, [Validators.required]],
-        hotDeal: [this.menuEdit.hotDeal],
-        bestSaller: [this.menuEdit.bestSaller],
-        menuCategory: [''],
-        state:[this.menuEdit.state],
+      console.log(this.menuEdit.menuCategoryId);
+      this.dataform.patchValue({
+        menuId:this.menuEdit.menu_Id,
+        menuName: this.menuEdit.menuName,
+        menuImage: this.menuEdit.menuImage,
+        menuPrice: this.menuEdit.price,
+        hotDeal: this.menuEdit.hotDeal,
+        bestSaller: this.menuEdit.bestSaller,
+        menuCategory: this.menuEdit.menuCategoryId,
+        state:this.menuEdit.state,
       });
-
+        console.log(this.dataform);
   }
   public EditNewMenu(){
     //  console.log(this.dataform.value);
@@ -84,6 +88,7 @@ export class SuaThucDonPopUpComponent implements OnInit, AfterViewChecked {
           if(check){
             this.hideshowOutputEdit.emit();
             alert("Chỉnh sửa thực đơn thành công!");
+            window.location.reload();
           }
       });
 

@@ -27,7 +27,13 @@ export class ThemThucDonPopUpComponent implements OnInit {
   ngOnInit() {
   }
   onLinkSelected() {
-      this.selectedImage = this.elelinkimg.nativeElement.value;
+      if(this.elelinkimg.nativeElement.value == ''){
+        alert("Chưa thêm hình vào");
+      }
+      else{
+
+        this.selectedImage = this.elelinkimg.nativeElement.value;
+      }
   }
 
   public HideorShowPopup(){

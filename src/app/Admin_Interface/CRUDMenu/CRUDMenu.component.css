@@ -16,9 +16,14 @@
     #filter-menu{
       display: flex;
       flex-direction: column-reverse;
+      margin-bottom: 10px;
     }
     #filter-menu input,div{
       width: 100% !important;
       margin-bottom: 15px;
     }
+}
+.select-container {
+  position: relative;
+  width: 25%;
 }

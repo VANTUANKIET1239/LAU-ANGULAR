@@ -13,16 +13,17 @@ export class ThemDanhMucThucDonComponent implements OnInit {
 
   @Output() public hideshowOutput = new EventEmitter();
   public dataform!: FormGroup;
+  public hidePopUp:boolean = false;
+  public menuCategoryAdd!:MenuCategory;
   constructor(private formbuilder:FormBuilder,private menuService:MenuService,private menuCategoryService: MenuCategoryService ) {
-    this.CreateNewForm();
   }
 
   ngOnInit() {
   }
   public HideorShowPopup(){
-      this.hideshowOutput.emit();
-  }
-
+    this.CreateNewForm();
+    this.hidePopUp = !this.hidePopUp;
+}
   public CreateNewForm(){
       this.dataform = this.formbuilder.group({
         menuCategoryName: ['', [Validators.required]],
@@ -46,9 +47,13 @@ export class ThemDanhMucThucDonComponent implements OnInit {
             alert("Thêm danh mục thực đơn thành công!");
             this.dataform.reset();
           }
+          this.LoadComponent();
       });
 
      }
+  }
+  public LoadComponent(){
+    window.location.reload();
   }
 
 

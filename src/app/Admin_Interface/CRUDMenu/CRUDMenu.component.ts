@@ -1,9 +1,10 @@
 import { MenuService } from './../../Services/MenuService/Menu.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Menu } from 'src/app/Models/Menu';
 import { MenuCategory } from 'src/app/Models/MenuCategory';
 import { MenuCategoryService } from 'src/app/Services/MenuCategoryService/MenuCategory.service';
+import { XacNhanXoaPopUpComponent } from 'src/app/UiTools/XacNhanXoaPopUp/XacNhanXoaPopUp.component';
 
 @Component({
 
@@ -24,9 +25,13 @@ export class CRUDMenuComponent implements OnInit {
   public totalPage: number = 0;
   public menuEdit:Menu = new Menu('','','',0,true,true,true);
   public removeItemData: Menu  = new Menu('','','',0,true,true,true);
+  public isLoading:boolean;
+  @ViewChild('XacNhanXoa') XacNhanXoa!: XacNhanXoaPopUpComponent;
   constructor(private route:ActivatedRoute,
               private menuService: MenuService,
-              private menucategoryservice: MenuCategoryService) { }
+              private menucategoryservice: MenuCategoryService) {
+                this.isLoading = true;
+              }
 
   public popupconditions:boolean = false;
   public editpopupconditions:boolean = false;
@@ -37,6 +42,7 @@ export class CRUDMenuComponent implements OnInit {
       // this.menus.push(...data);
        this.menus = data;
        this.Pagination(this.menus);
+       this.isLoading = false;
     });
    this.onInitMenuCategories();
 
@@ -86,7 +92,7 @@ export class CRUDMenuComponent implements OnInit {
 
   public ShowHideRemoveConfirm(removeMenu:Menu){
         this.removeItemData =  removeMenu;
-        this.removeConfirmPopupCondition = !this.removeConfirmPopupCondition;
+        this.XacNhanXoa.ShowOrHidePopUp();
   }
 
   public selectedCate(menuCateId: string){
@@ -97,6 +103,7 @@ export class CRUDMenuComponent implements OnInit {
         this.menuService.GetMenusByCate(menuCateId).subscribe((data) => {
           this.pageIndex = 1;
           this.Pagination(data);
+          this.isLoading = false;
         });
       }
   }
@@ -109,7 +116,16 @@ export class CRUDMenuComponent implements OnInit {
      this.Pagination(searchlist);
   }
 
-
-
+  onRemove(item:string){
+   this.menuService.GetMenu(item).subscribe(x => {
+        this.menuService.RemoveMenu(x).subscribe((response) => {
+          if(response.success){
+            alert("Xóa thành công");
+            this.XacNhanXoa.ShowOrHidePopUp();
+            this.XacNhanXoa.LoadComponent();
+          }
+      });
+   });
+}
 
 }

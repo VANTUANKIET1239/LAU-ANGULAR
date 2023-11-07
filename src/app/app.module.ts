@@ -47,16 +47,18 @@ import { MenuCategoryService } from './Services/MenuCategoryService/MenuCategory
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaginationComponent } from './Admin_Interface/Pagination/Pagination.component';
 import { VNDCurrencyPipe } from './Pipes/VNDCurrency.pipe';
-import { XacNhanXoaPopUpComponent } from './Admin_Interface/CRUDMenu/XacNhanXoaPopUp/XacNhanXoaPopUp.component';
-import { XacNhanXoaDMTDComponent } from './Admin_Interface/CRUDMenuCategory/XacNhanXoaDMTD/XacNhanXoaDMTD.component';
+import { XacNhanXoaPopUpComponent } from './UiTools/XacNhanXoaPopUp/XacNhanXoaPopUp.component';
 import { SuaDanhMucThucDonComponent } from './Admin_Interface/CRUDMenuCategory/SuaDanhMucThucDon/SuaDanhMucThucDon.component';
 import { ThemDanhMucThucDonComponent } from './Admin_Interface/CRUDMenuCategory/ThemDanhMucThucDon/ThemDanhMucThucDon.component';
 //import { SelectCustomComponent } from './UiTools/select-custom/select-custom.component';
+import { JwtModule } from "@auth0/angular-jwt";
+import { UserAuthService } from './Services/UserAuth/UserAuth.service';
 
 
 
-
-
+export function tokenGetter() {
+  return localStorage.getItem("jwt");
+}
 
 
 
@@ -105,11 +107,9 @@ import { ThemDanhMucThucDonComponent } from './Admin_Interface/CRUDMenuCategory/
     PaginationComponent,
     VNDCurrencyPipe,
     XacNhanXoaPopUpComponent,
-    XacNhanXoaDMTDComponent,
      SuaDanhMucThucDonComponent,
      ThemDanhMucThucDonComponent,
     // SelectCustomComponent
-
 
   ],
   imports: [
@@ -117,11 +117,19 @@ import { ThemDanhMucThucDonComponent } from './Admin_Interface/CRUDMenuCategory/
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ["localhost:7204"],
+        disallowedRoutes: []
+      }
+    })
   ],
   providers: [
     MenuService,
     MenuCategoryService,
+    UserAuthService
   ],
   bootstrap: [AppComponent]
 })

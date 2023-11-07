@@ -28,6 +28,10 @@ constructor(private httpclient: HttpClient) { }
     const url = `${this.REST_API_SERVER}`;
     return this.httpclient.get<Menu[]>(url,this.httpOptions);
   };
+  public GetMenu(menuid:string): Observable<Menu>{
+    const url = `${this.REST_API_SERVER}/${menuid}`;
+    return this.httpclient.get<Menu>(url,this.httpOptions);
+  };
   public AddNewMenu(cateId: string, menu:Menu): Observable<any>{
     const url = `${this.REST_API_SERVER}/AddMenu?MenuCategoryId=${cateId}`;
     return this.httpclient.post<Menu>(url,menu,this.httpOptions);
@@ -45,6 +49,6 @@ constructor(private httpclient: HttpClient) { }
     const headers = new HttpHeaders({
       'Content-Type': 'text/json',
     });
-    return this.httpclient.post<Menu>(url,menu,{headers: headers});
+    return this.httpclient.post<Menu>(url,menu,this.httpOptions);
   };
 }

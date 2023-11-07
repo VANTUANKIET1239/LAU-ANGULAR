@@ -15,29 +15,33 @@ export class SuaDanhMucThucDonComponent implements OnInit {
   public selectedImage: string  = '';
 
   @ViewChild("hinhanhmenu",{ static: false }) public elelinkimg!:ElementRef<HTMLInputElement>;
-  @Output() public hideshowOutputEdit = new EventEmitter();
   public dataform!: FormGroup;
-
-  @Input() public menuCategoryEdit:MenuCategory = new MenuCategory('','',true);
-  constructor(private formbuilder:FormBuilder,private menuService:MenuService,private menuCategoryService: MenuCategoryService ) {
+  public hidePopUp:boolean = false;
+  public menuCategoryEdit!:MenuCategory;
+  constructor(private formbuilder:FormBuilder,
+            private menuService:MenuService,
+            private menuCategoryService: MenuCategoryService ) {
 
   }
   ngAfterViewInit(): void {
   }
 
   ngOnInit() {
-    this.CreateNewForm();
+
   }
   onLinkSelected() {
       this.selectedImage = this.elelinkimg.nativeElement.value;
   }
 
-  public HideorShowPopup(){
-      this.hideshowOutputEdit.emit();
+  public HideorShowPopup(model?: MenuCategory){
+      if(model){
+        this.menuCategoryEdit = model;
+        this.CreateNewForm();
+      }
+      this.hidePopUp = !this.hidePopUp;
   }
 
   public CreateNewForm(){
-    console.log(this.menuCategoryEdit);
       this.dataform = this.formbuilder.group({
         menuCategoryName: [this.menuCategoryEdit.categoryName],
         menuCategoryId: [this.menuCategoryEdit.menuCategory_Id],
@@ -47,7 +51,6 @@ export class SuaDanhMucThucDonComponent implements OnInit {
 
   }
   public EditNewMenu(){
-    //  console.log(this.dataform.value);
      if(this.dataform.valid){
       let newmenuform = this.dataform.value;
        let newMenu:MenuCategory = new MenuCategory(
@@ -58,7 +61,7 @@ export class SuaDanhMucThucDonComponent implements OnInit {
       this.menuCategoryService.EditMenuCategory(newMenu).subscribe((data) =>{
           let check = data.success;
           if(check){
-            this.hideshowOutputEdit.emit();
+            this.HideorShowPopup();
             alert("Chỉnh sửa danh mục thực đơn thành công!");
             this.LoadComponent();
           }

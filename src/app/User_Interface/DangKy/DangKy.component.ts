@@ -1,4 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { SignUp } from 'src/app/Models/SignUp';
+import { UserAuthService } from 'src/app/Services/UserAuth/UserAuth.service';
 
 @Component({
   selector: 'app-DangKy',
@@ -6,10 +11,54 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./DangKy.component.css']
 })
 export class DangKyComponent implements OnInit {
-
-  constructor() { }
+  public dataform!: FormGroup;
+  UserLogin: SignUp = new SignUp();
+  invalidLogin!:boolean;
+  constructor(
+    private formbuilder:FormBuilder,
+    private UserService:UserAuthService,
+    private route:Router
+  ) { }
 
   ngOnInit() {
+    this.CreateNewForm();
+  }
+  public CreateNewForm(){
+    this.dataform = this.formbuilder.group({
+      email: ['',[Validators.email, Validators.required]],
+      name: [''],
+      phone: ['', Validators.required],
+      password: ['',[Validators.minLength(6),Validators.required]],
+      confirmPassword: ['',Validators.required]
+    });
+  }
+  public CheckSignUp():boolean{
+    return false;
+  }
+  public SignUp(){
+        if(this.CheckSignUp()){
+          return;
+      }
+      let UserForm = this.dataform.value;
+      this.UserLogin.Email = UserForm.email;
+      this.UserLogin.Password = UserForm.password;
+      this.UserLogin.ConfirmPassword = UserForm.confirmPassword;
+      this.UserLogin.Phone = UserForm.phone;
+      this.UserLogin.Name = UserForm.name;
+      this.UserService.SignUp(this.UserLogin).subscribe({
+        next: (response: any) => {
+          if(response.success){
+            alert("Đăng ký thành công");
+            this.route.navigate(["/DangNhap"]);
+          }
+          else{
+
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log(err);
+        }
+      });
   }
 
 }

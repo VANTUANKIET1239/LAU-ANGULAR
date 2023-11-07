@@ -6,7 +6,6 @@
   </div>
   <div class="row w-100">
     <div id="filter-menu">
-
           <input #searchbar type="text" (change)="SearchMenu(searchbar.value)" class="form-control " placeholder="Tìm kiếm...">
           <div class="select-container">
             <select id="selectInput" [(ngModel)]="selectedcategory" (change)="selectedCate(selectedcategory)" class="form-control">
@@ -41,6 +40,7 @@
       </tr>
     </thead>
     <tbody>
+
       <ng-container *ngFor="let menu of menusview" >
         <tr>
           <td><img style="width: 70px;height: 70px;" class="img-fluid" [src]="menu.menuImage" alt="Hình ảnh món ăn"></td>
@@ -58,7 +58,13 @@
       </ng-container>
       <!-- Thêm các hàng dữ liệu khác ở đây -->
     </tbody>
+
   </table>
+  <div class="text-center w-100" *ngIf="isLoading">
+    <div class="spinner-border text-danger" style="width: 3rem; height: 3rem;" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
   <app-Pagination
                   [pageIndex]="pageIndex"
                   [totalPage]="totalPage"
@@ -76,8 +82,7 @@
                     (hideshowOutput)="ShowHidePopUpMenu()">
 </app-ThemThucDonPopUp>
 
-<app-XacNhanXoaPopUp
-                    [removeItemData]="removeItemData"
-                    *ngIf="removeConfirmPopupCondition"
-                    (hideshowOutputRemoveConfirm)="HidePopUpMenuRemoveConfirm()">
+<app-XacNhanXoaPopUp  #XacNhanXoa
+  [removeItemDataId]="removeItemData.menu_Id"
+  (onRemoveItem) = "onRemove($event)">
 </app-XacNhanXoaPopUp>

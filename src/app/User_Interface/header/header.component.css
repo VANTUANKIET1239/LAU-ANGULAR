@@ -16,7 +16,7 @@ nav{
     padding: 0 70px;
     line-height: 80px;
     font-weight: bold;
-    font-size: 35px;    
+    font-size: 35px;
  }
  nav ul {
     float: right;
@@ -54,7 +54,7 @@ nav{
  #check{
     display: none;
  }
-@media (max-width: 952px){
+@media (max-width: 852px){
     label.logo{
         font-size: 30px;
         padding-left: 50px;
@@ -82,7 +82,7 @@ nav{
         display: block;
         line-height: 30px;
         margin: 50px 0;
-    } 
+    }
     nav ul li a{
         font-size: 20px;
     }

@@ -3,6 +3,7 @@ import { Injectable, Renderer2 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MenuCategory } from 'src/app/Models/MenuCategory';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -27,9 +28,9 @@ public EditMenuCategory(menuCategory:MenuCategory): Observable<any>{
   const url = `${this.REST_API_SERVER}/EditMenuCategory`;
   return this.httpclient.post<MenuCategory>(url,menuCategory,this.httpOptions);
 }
-public RemoveMenuCategory(menuCategory:MenuCategory): Observable<any>{
-  const url = `${this.REST_API_SERVER}/RemoveMenuCategory`;
-  return this.httpclient.post<MenuCategory>(url,menuCategory,this.httpOptions);
+public RemoveMenuCategory(menuCategoryId:string): Observable<any>{
+  const url = `${this.REST_API_SERVER}/RemoveMenuCategory?menuCategoryId=${menuCategoryId}`;
+  return this.httpclient.get<MenuCategory>(url,this.httpOptions);
 };
 
 

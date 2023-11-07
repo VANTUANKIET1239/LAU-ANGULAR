@@ -1,9 +1,13 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Menu } from 'src/app/Models/Menu';
 import { MenuCategory } from 'src/app/Models/MenuCategory';
 import { MenuCategoryService } from 'src/app/Services/MenuCategoryService/MenuCategory.service';
 import { MenuService } from 'src/app/Services/MenuService/Menu.service';
+import { XacNhanXoaPopUpComponent } from 'src/app/UiTools/XacNhanXoaPopUp/XacNhanXoaPopUp.component';
+import { SuaDanhMucThucDonComponent } from './SuaDanhMucThucDon/SuaDanhMucThucDon.component';
+import { SuaThucDonPopUpComponent } from '../CRUDMenu/SuaThucDonPopUp/SuaThucDonPopUp.component';
+import { ThemThucDonPopUpComponent } from '../CRUDMenu/ThemThucDonPopUp/ThemThucDonPopUp.component';
 
 @Component({
   selector: 'app-CRUDMenuCategory',
@@ -13,24 +17,32 @@ import { MenuService } from 'src/app/Services/MenuService/Menu.service';
 export class CRUDMenuCategoryComponent implements OnInit, OnChanges {
 
   public categoryName: string = "";
+
   public menuCategories: MenuCategory[] = [];
   public menuCategoriesPage: MenuCategory[] = [];
   public menuCategoriesview:MenuCategory[] = [];
+
   public pageIndex:number = 1;
   public pageSize:number = 4;
   public totalCount: number = 0;
   public totalPage: number = 0;
-  public menuCategoryEdit:MenuCategory = new MenuCategory('','',true);
+
   public removeItemData: MenuCategory  = new MenuCategory('','',true);
+  public isLoading:boolean;
+
+  @ViewChild('SuaPopUp') SuaPopUp!:SuaDanhMucThucDonComponent
+  @ViewChild('XacNhanXoa') XacNhanXoa!: XacNhanXoaPopUpComponent;
+  @ViewChild('ThemPopUp') ThemPopUp!: ThemThucDonPopUpComponent;
+
   constructor(private route:ActivatedRoute,
               private menuService: MenuService,
-              private menucategoryservice: MenuCategoryService) { }
+              private menucategoryservice: MenuCategoryService) {
+                this.isLoading = true;
+              }
   ngOnChanges(changes: SimpleChanges): void {
   }
 
   public popupconditions:boolean = false;
-  public editpopupconditions:boolean = false;
-  public removeConfirmPopupCondition: boolean = false;
   ngOnInit() {
     this.categoryName = <string> this.route.snapshot.paramMap.get("name");
 
@@ -38,6 +50,7 @@ export class CRUDMenuCategoryComponent implements OnInit, OnChanges {
       // this.menus.push(...data);
        this.menuCategories = data;
        this.Pagination(this.menuCategories);
+       this.isLoading = false;
     });
 
   }
@@ -63,34 +76,33 @@ export class CRUDMenuCategoryComponent implements OnInit, OnChanges {
       this.pageIndex = event;
       this.Pagination(this.menuCategoriesPage);
   }
-
   public ShowHidePopUpMenu(){
-    this.popupconditions = !this.popupconditions;
+     this.ThemPopUp.HideorShowPopup();
   }
   public ShowHidePopUpMenuEdit(Menu:MenuCategory){
-    this.menuCategoryEdit = Menu;
-    this.editpopupconditions = !this.editpopupconditions;
+    this.SuaPopUp.HideorShowPopup(Menu);
   }
-  public HidePopUpMenuEdit(){
-
-    this.editpopupconditions = !this.editpopupconditions;
-  }
-  public HidePopUpMenuRemoveConfirm(){
-
-    this.removeConfirmPopupCondition = !this.removeConfirmPopupCondition;
-  }
-
   public ShowHideRemoveConfirm(removeMenu:MenuCategory){
         this.removeItemData =  removeMenu;
-        this.removeConfirmPopupCondition = !this.removeConfirmPopupCondition;
+        this.XacNhanXoa.ShowOrHidePopUp();
   }
 
-  public SearchMenu(content:string){
+  public onSearch(content:string){
      var contentuppdercase = content.toUpperCase();
      let searchlist:MenuCategory[] = [];
      searchlist = this.menuCategories.filter(x => x.categoryName.toUpperCase().includes(contentuppdercase));
      this.pageIndex = 1;
      this.Pagination(searchlist);
+  }
+  onRemove(itemId:string){
+      this.menucategoryservice.RemoveMenuCategory(itemId).subscribe((response) => {
+          if(response.success){
+            alert("Xóa thành công");
+            this.XacNhanXoa.ShowOrHidePopUp();
+            this.XacNhanXoa.LoadComponent();
+          }
+      });
+
   }
 
 

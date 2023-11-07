@@ -51,6 +51,10 @@ export class PaginationComponent implements OnInit,OnChanges, AfterContentChecke
           this.nextlock = true;
           this.prelock = false;
       }
+      // if(this.totalPage == 1){
+      //   this.nextlock = true;
+      //   this.prelock = true;
+      // }
 
   }
   public ChangePagePreNext(condition: string){
@@ -62,8 +66,8 @@ export class PaginationComponent implements OnInit,OnChanges, AfterContentChecke
       }
       else{
           this.pageIndex += 1;
+          this.CheckPage();
           this.eventPage.emit(this.pageIndex);
-          this.CheckPage()
       }
   }
   ngOnInit() {
