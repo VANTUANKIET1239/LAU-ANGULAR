@@ -13,7 +13,8 @@ import { UserAuthService } from 'src/app/Services/UserAuth/UserAuth.service';
 export class DangKyComponent implements OnInit {
   public dataform!: FormGroup;
   UserLogin: SignUp = new SignUp();
-  invalidLogin!:boolean;
+  invalidSignUp:boolean = false;
+  ErrorMessage!:string;
   constructor(
     private formbuilder:FormBuilder,
     private UserService:UserAuthService,
@@ -32,6 +33,10 @@ export class DangKyComponent implements OnInit {
       confirmPassword: ['',Validators.required]
     });
   }
+  ShowErrorMessage(message: string){
+    this.invalidSignUp = true;
+    this.ErrorMessage = message;
+}
   public CheckSignUp():boolean{
     return false;
   }
@@ -49,10 +54,14 @@ export class DangKyComponent implements OnInit {
         next: (response: any) => {
           if(response.success){
             alert("Đăng ký thành công");
-            this.route.navigate(["/DangNhap"]);
+            this.invalidSignUp = false;
+            this.route.navigate(["/DangNhap"]).then(x => {
+              window.location.reload();
+            });
           }
           else{
-
+            this.invalidSignUp = true;
+              this.ShowErrorMessage(response.message);
           }
         },
         error: (err: HttpErrorResponse) => {

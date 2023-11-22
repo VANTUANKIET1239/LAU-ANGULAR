@@ -53,6 +53,16 @@ import { ThemDanhMucThucDonComponent } from './Admin_Interface/CRUDMenuCategory/
 //import { SelectCustomComponent } from './UiTools/select-custom/select-custom.component';
 import { JwtModule } from "@auth0/angular-jwt";
 import { UserAuthService } from './Services/UserAuth/UserAuth.service';
+import { DatePipe } from '@angular/common';
+import { LoadingScreenComponent } from './UiTools/Loading/LoadingScreen/LoadingScreen.component';
+import { TransformTextPipe } from './Pipes/TransformText/TransformText.pipe';
+import { AddressService } from './Services/AddressService/Address.service';
+import { CityService } from './Services/CityService/City.service';
+import { WardService } from './Services/WardService/Ward.service';
+import { DistrictService } from './Services/DistrictService/District.service';
+import { CRUDPromotionComponent } from './Admin_Interface/CRUD_Promotion/CRUDPromotion/CRUDPromotion.component';
+import { EditPromotionComponent } from './Admin_Interface/CRUD_Promotion/Edit-Promotion/Edit-Promotion/Edit-Promotion.component';
+import { PromotionService } from './Services/PromotionService/Promotion.service';
 
 
 
@@ -109,10 +119,15 @@ export function tokenGetter() {
     XacNhanXoaPopUpComponent,
      SuaDanhMucThucDonComponent,
      ThemDanhMucThucDonComponent,
+      LoadingScreenComponent,
+      TransformTextPipe,
+      CRUDPromotionComponent,
+      EditPromotionComponent
     // SelectCustomComponent
 
   ],
   imports: [
+
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -129,7 +144,14 @@ export function tokenGetter() {
   providers: [
     MenuService,
     MenuCategoryService,
-    UserAuthService
+    UserAuthService,
+    DatePipe,
+    AddressService,
+    CityService,
+    WardService,
+    DistrictService,
+    PromotionService
+
   ],
   bootstrap: [AppComponent]
 })

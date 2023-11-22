@@ -18,20 +18,16 @@
             <table class="table">
               <tbody>
                 <tr>
-                  <th>ID:</th>
-                  <td class="text-end">05050356</td>
-                </tr>
-                <tr>
                   <th>Coin</th>
-                  <td class="text-end">29750</td>
+                  <td class="text-end">{{UserInfo.rewardPoints}}</td>
                 </tr>
-                <tr>
+                <!-- <tr>
                   <th>Cấp</th>
                   <td class="text-end">Silver</td>
-                </tr>
+                </tr> -->
                 <tr>
                   <th>Số điện thoại:</th>
-                  <td class="text-end">0906889483</td>
+                  <td class="text-end">{{UserInfo.phone}}</td>
                 </tr>
               </tbody>
             </table>
@@ -41,11 +37,17 @@
     </div>
     <div class="col-12 col-md-9">
       <div class="card shadow p-5">
-        <form action="">
+        <div class="alert {{notificationModel.condition}} d-flex align-items-center" role="alert" *ngIf="notificationModel.isValid">
+          <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+          <div>
+            {{notificationModel.message}}
+          </div>
+        </div>
+        <form [formGroup]="dataform"  (submit)="EditUserInfo()">
           <div class="form-outline mb-5">
             <label for="textInput">Họ và tên</label>
             <div class="input-container">
-              <input type="text" id="textInput" class="form-control" />
+              <input formControlName="name"  type="text" id="textInput" class="form-control" />
               <span class="underline"></span>
             </div>
           </div>
@@ -54,7 +56,7 @@
               <div class="form-outline mb-4">
                 <label for="textInput">Email</label>
                 <div class="input-container">
-                  <input type="text" id="textInput" class="form-control" />
+                  <input formControlName = "email" type="text" id="textInput" class="form-control" readonly/>
                   <span class="underline"></span>
                 </div>
               </div>
@@ -63,7 +65,7 @@
               <div class="form-outline mb-4">
                 <label for="datetimeInput">Ngày sinh</label>
                 <div class="input-container">
-                  <input type="date" id="datetimeInput" class="form-control" />
+                  <input formControlName = "birthDate" type="date" id="datetimeInput" class="form-control" />
                   <span class="underline"></span>
                 </div>
               </div>
@@ -74,10 +76,10 @@
               <div class="form-outline mb-4">
                 <label for="selectInput">Giới tính</label>
                 <div class="select-container">
-                  <select id="selectInput" class="form-control">
+                  <select formControlName = "gender"  id="selectInput" class="form-control">
                     <option value="" selected disabled>Vui lòng chọn</option>
-                    <option value="option2">Nam</option>
-                    <option value="option3">Nữ</option>
+                    <option value="true">Nam</option>
+                    <option value="false">Nữ</option>
                   </select>
                   <span class="underline"></span>
                 </div>
@@ -87,7 +89,7 @@
               <div class="form-outline mb-4">
                 <label for="textInput">Địa chỉ mặc định</label>
                 <div class="input-container">
-                  <input type="text" id="textInput" class="form-control" readonly/>
+                  <input formControlName = "address" type="text" id="textInput" class="form-control" readonly/>
                   <span class="underline"></span>
                 </div>
               </div>
@@ -95,7 +97,7 @@
           </div>
 
           <div class="d-flex flex-row justify-content-end">
-            <button id="btnhuy-user" class="btn  btn-secondary me-3 w-25">Hủy</button>
+            <!-- <button id="btnhuy-user" class="btn  btn-secondary me-3 w-25">Hủy</button> -->
             <button id="btnluu-user" class="btn  btn-warning w-25" style="background-color: #db3d23">Lưu</button>
           </div>
         </form>
@@ -103,3 +105,4 @@
     </div>
   </div>
 </div>
+<app-LoadingScreen #loading></app-LoadingScreen>

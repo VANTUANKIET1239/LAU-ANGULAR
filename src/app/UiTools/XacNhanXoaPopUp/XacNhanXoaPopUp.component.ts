@@ -1,5 +1,5 @@
 import { MenuService } from 'src/app/Services/MenuService/Menu.service';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Menu } from 'src/app/Models/Menu';
 import { Router } from '@angular/router';
 
@@ -13,6 +13,7 @@ export class XacNhanXoaPopUpComponent implements OnInit {
   @Output() public onRemoveItem = new EventEmitter();
   @Input() public removeItemDataId:string = '';
   public hidePopUp: boolean = false;
+  public removeId: string = '';
   constructor() { }
   ngOnInit() {
   }
@@ -24,5 +25,9 @@ export class XacNhanXoaPopUpComponent implements OnInit {
   }
   public LoadComponent(){
     window.location.reload();
+  }
+  public ShowOrHidePopUp2(id:string){
+    this.removeItemDataId = id;
+    this.hidePopUp = !this.hidePopUp;
   }
 }

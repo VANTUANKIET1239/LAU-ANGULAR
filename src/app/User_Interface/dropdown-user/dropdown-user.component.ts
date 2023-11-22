@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewChecked, Component, OnInit,ChangeDetectorRef } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { User } from 'src/app/Models/User';
@@ -9,15 +9,23 @@ import { UserAuthService } from 'src/app/Services/UserAuth/UserAuth.service';
   templateUrl: './dropdown-user.component.html',
   styleUrls: ['./dropdown-user.component.css']
 })
-export class DropdownUserComponent {
+export class DropdownUserComponent implements OnInit, AfterViewChecked{
   UserInfo: User = new User();
-  ImageUrl!: string;
+  ImageUrl: string | Uint8Array = '';
   constructor(
     private route:Router,
     private userService: UserAuthService,
-    private sanitizer:DomSanitizer
+    private sanitizer:DomSanitizer,
+    private cdr: ChangeDetectorRef
   ){
-      this.GetCurrentUser();
+
+  }
+  ngAfterViewChecked(): void {
+
+  }
+  ngOnInit(): void {
+    console.log(this.ImageUrl);
+    this.GetCurrentUser();
   }
   public GetCurrentUser(){
       this.userService.GetUser().subscribe(x => {
@@ -26,30 +34,30 @@ export class DropdownUserComponent {
 
       });
   }
-  ConvertByte2Url(imageData: Uint8Array | null){
-    if(imageData)
-    {
-      const blob = new Blob([imageData], { type: 'image/jpeg' });
-      const imageUrl = URL.createObjectURL(blob);
-      let base64 = this.sanitizer.bypassSecurityTrustUrl(imageUrl);
-      return base64;
-    }
-    return '';
-  }
-  getImageSource(imageData: Uint8Array | null): string {
-    if (imageData && imageData.length > 0) {
-      const base64String = this.arrayBufferToBase64(imageData);
-      return `data:image/jpeg;base64,${base64String}`; // Adjust the image type as needed
-    }
-    return ''; // Return empty string if there's no image data
-  }
-  arrayBufferToBase64(buffer: Uint8Array | null): string {
-    let binary = '';
-    buffer?.forEach(byte => {
-      binary += String.fromCharCode(byte);
-    });
-    return btoa(binary);
-  }
+  // ConvertByte2Url(imageData: Uint8Array | null){
+  //   if(imageData)
+  //   {
+  //     const blob = new Blob([imageData], { type: 'image/jpeg' });
+  //     const imageUrl = URL.createObjectURL(blob);
+  //     let base64 = this.sanitizer.bypassSecurityTrustUrl(imageUrl);
+  //     return base64;
+  //   }
+  //   return '';
+  // }
+  // getImageSource(imageData: Uint8Array | null): string {
+  //   if (imageData && imageData.length > 0) {
+  //     const base64String = this.arrayBufferToBase64(imageData);
+  //     return `data:image/jpeg;base64,${base64String}`; // Adjust the image type as needed
+  //   }
+  //   return ''; // Return empty string if there's no image data
+  // }
+  // arrayBufferToBase64(buffer: Uint8Array | null): string {
+  //   let binary = '';
+  //   buffer?.forEach(byte => {
+  //     binary += String.fromCharCode(byte);
+  //   });
+  //   return btoa(binary);
+  // }
   // arrayBufferToBase64(buffer: any) {
   //   let binary = '';
   //   const bytes = new Uint8Array(buffer);
@@ -61,6 +69,7 @@ export class DropdownUserComponent {
   // }
     public Logout(){
       localStorage.removeItem('jwt');
+      localStorage.removeItem('user');
       this.route.navigate(["/DangNhap"]).then(x => {
         window.location.reload();
     });

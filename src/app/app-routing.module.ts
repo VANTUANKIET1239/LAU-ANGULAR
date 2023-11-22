@@ -24,6 +24,7 @@ import { CRUDNewsComponent } from './Admin_Interface/CRUDNews/CRUDNews.component
 import { CRUDMenuComponent } from './Admin_Interface/CRUDMenu/CRUDMenu.component';
 import { CRUDMenuCategoryComponent } from './Admin_Interface/CRUDMenuCategory/CRUDMenuCategory.component';
 import { AuthGuard } from './Guard/jwt-guard.guard';
+import { CRUDPromotionComponent } from './Admin_Interface/CRUD_Promotion/CRUDPromotion/CRUDPromotion.component';
 
 
 const routes: Routes = [
@@ -41,18 +42,25 @@ const routes: Routes = [
     {path:'CRUDNews/:name', component:CRUDNewsComponent},
     {path:'CRUDMenu/:name', component:CRUDMenuComponent},
     {path:'CRUDMenuCategory/:name', component:CRUDMenuCategoryComponent},
+    {path:'CRUDPromotion/:name', component:CRUDPromotionComponent},
   ],
   canActivate: [AuthGuard]
 
   },
   {path:'User', component:GiaoDienCaNhanComponent,
     children:[
-    {path:'ThongTinCaNhan', component:ThongTinCaNhanComponent },
-    {path:'UuDaiCuaToi', component:UuDaiCuaToiComponent },
-    {path:'LichSuGiaoHang', component:LichSuGiaoHangComponent },
-    {path:'LichSuDatBan', component:LichSuDatBanComponent },
-    {path:'SoDiaChi', component:SoDiaChiComponent },
-    ]
+    {path:'ThongTinCaNhan', component:ThongTinCaNhanComponent, canActivate: [AuthGuard]
+  },
+    {path:'UuDaiCuaToi', component:UuDaiCuaToiComponent, canActivate: [AuthGuard]
+  },
+    {path:'LichSuGiaoHang', component:LichSuGiaoHangComponent, canActivate: [AuthGuard]
+  },
+    {path:'LichSuDatBan', component:LichSuDatBanComponent, canActivate: [AuthGuard]
+  },
+    {path:'SoDiaChi', component:SoDiaChiComponent, canActivate: [AuthGuard]
+  },
+    ],
+    canActivate: [AuthGuard]
   },
   {path:'UuDai', component:TrangUuDaiComponent,pathMatch:'full' },
   {path:'ChiTietGiaoHang', component:ChiTietLSDatHangComponent,pathMatch:'full' },

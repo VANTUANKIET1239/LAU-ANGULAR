@@ -1,0 +1,108 @@
+<div id="bg-modal" *ngIf="hidePopUp">
+  <div id="bg-content" class="p-4">
+    <div class="row mb-3">
+      <div class="col-11 d-flex align-items-center">
+        <h3 style="margin: 0;">Thêm danh mục thực đơn</h3>
+      </div>
+      <div class="col-1 d-flex justify-content-end">
+        <button (click)="Showpopup()" id="x-click"><i class='bx bx-x bx-lg' undefined></i></button>
+      </div>
+    </div>
+    <div class="alert {{notificationModel.condition}} d-flex align-items-center" role="alert" *ngIf="notificationModel.isValid">
+      <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+      <div>
+        {{notificationModel.message}}
+      </div>
+    </div>
+    <form [formGroup]="dataform" (ngSubmit)="SavePromotion()">
+      <div class="row">
+        <div class="col-12 col-md-6" style="border-right: 5px solid black;">
+
+
+          <!-- <input type="hidden" formControlName = "menuCategoryId">
+              <input type="hidden" formControlName = "state"> -->
+          <div class="form-outline mb-3">
+            <label for="textInput">Tên ưu đãi</label>
+            <div class="input-container">
+              <input formControlName="promotionName" type="text" id="textInput" class="form-control" />
+              <span class="underline"></span>
+            </div>
+          </div>
+          <label for="textInput">Hinh ảnh</label>
+          <div class="form-outline mb-3 d-flex">
+
+            <div class="input-container w-75 me-3">
+              <input [(ngModel)]="imagePath" [ngModelOptions]="{standalone: true}" type="text" id="textInput"
+                class="form-control" readonly />
+              <span class="underline"></span>
+            </div>
+            <input #fileinput (change)="onFileSelected($event)" type="file" accept="image/*" class="btn btn-secondary"
+              style="display: none;">
+            <button type="button" (click)="fileinput.click()" class="btn w-25"
+              style="background-color: #db3d23;color: white;font-weight: bold;">Tải lên</button>
+          </div>
+
+          <div class="d-flex justify-content-center align-items-center">
+            <img class="img-fluid" [src]="PromotionImage" alt="No content" style="width: 200px;height: 200px;">
+          </div>
+          <div class="row mb-3">
+            <div class="col-12 col-md-6">
+              <label  for="datetimeInput">Ngày tạo</label>
+              <div class="form-outline mb-3 d-flex">
+                <div class="input-container" style="width: 100%;">
+                  <input formControlName="createDate" type="date" id="datetimeInput" class="form-control" />
+                  <span class="underline"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <label for="datetimeInput">Ngày hết hạn</label>
+              <div class="form-outline mb-3 d-flex">
+                <div class="input-container" style="width: 100%;">
+                  <input formControlName="expirationDate" type="date" id="datetimeInput" class="form-control" />
+                  <span class="underline"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="form-outline mb-3">
+                <label for="textInput">Tên danh mục</label>
+                <div class="input-container">
+                  <input type="text" id="textInput"  class="form-control" />
+                  <span class="underline"></span>
+                </div>
+              </div> -->
+
+          <div class="d-flex flex-row justify-content-end">
+            <button (click)="Showpopup()" type="button" class="btn btn-outline-secondary me-2"
+              style="font-weight: bold;" id="btnhuy">Hủy</button>
+            <button type="submit" class="btn" id="btnxacnhan">Thêm Ưu đãi</button>
+          </div>
+
+        </div>
+        <div class="col-12 col-md-6">
+          <button (click) = "addContent()" class="btn btn-danger mb-3">Thêm nội dung</button>
+            <div formArrayName="contentArrays">
+
+              <ng-container *ngFor="let item of contentArrays.controls;index as i">
+                <div [formGroupName]="i" class="custom-container">
+                  <div class="form-outline mb-3">
+                    <div class="d-flex align-items-center">
+                      <label for="datetimeInput" class="me-2">Nội dung {{i}}</label>
+                      <div  style="width: 70%;margin-right: 5px;">
+                        <input  formControlName="content" type="text" id="textInput" class="form-control" />
+                        <span class="underline"></span>
+                      </div>
+                      <button (click)="DeleteContent(i)" style="width: 40px;height: 40px;" class="btn btn-danger"><i class="bi bi-x-circle-fill"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

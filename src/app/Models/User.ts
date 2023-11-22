@@ -1,6 +1,6 @@
 export class User {
   private _userId: string;
-  private _userImage: string;
+  private _userImage: string | Uint8Array;
   private _name: string;
   private _email: string;
   private _gender: boolean;
@@ -10,7 +10,7 @@ export class User {
 
   constructor(
       userId?: string,
-      userImage?: string,
+      userImage?: string | Uint8Array,
       name?: string,
       email?: string,
       gender?: boolean,
@@ -36,11 +36,11 @@ export class User {
       this._userId = userId;
   }
 
-  get userImage(): string {
+  get userImage(): string | Uint8Array {
       return this._userImage;
   }
 
-  set userImage(userImage: string) {
+  set userImage(userImage: string | Uint8Array) {
       this._userImage = userImage;
   }
 

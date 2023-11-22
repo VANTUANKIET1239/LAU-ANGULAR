@@ -1,9 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Route, Router } from '@angular/router';
+import { finalize } from 'rxjs';
 import { SignIn } from 'src/app/Models/SignIn';
+import { User } from 'src/app/Models/User';
 import { UserAuthService } from 'src/app/Services/UserAuth/UserAuth.service';
+import { LoadingScreenComponent } from 'src/app/UiTools/Loading/LoadingScreen/LoadingScreen.component';
 
 @Component({
   selector: 'app-TrangDangNhap',
@@ -17,10 +20,12 @@ export class TrangDangNhapComponent implements OnInit {
   invalidLogin!:boolean;
   ErrorMessage!: string;
   isInvalid:boolean = false;
+  @ViewChild('loading') LoadingCompo!:LoadingScreenComponent
   constructor(
     private formbuilder:FormBuilder,
     private UserService:UserAuthService,
-    private route:Router
+    private route:Router,
+    private userService: UserAuthService
   ) { }
 
   ngOnInit() {
@@ -61,22 +66,32 @@ export class TrangDangNhapComponent implements OnInit {
       let UserForm = this.dataform.value;
       this.UserLogin.Email = UserForm.email;
       this.UserLogin.Password = UserForm.password;
-      this.UserService.Login(this.UserLogin).subscribe({
+      this.LoadingCompo.SetLoading(true);
+      this.UserService.Login(this.UserLogin)
+      .pipe(finalize( () =>{this.LoadingCompo.SetLoading(false)}) )
+      .subscribe({
         next: (response: any) => {
+          console.log("Dang nhap");
             if(response.success){
               const token = response.token;
               console.log(token);
               localStorage.setItem("jwt", token);
               this.invalidLogin = false;
-              this.route.navigate(["/TrangChu"]).then(x => {
-                window.location.reload();
+
+              this.userService.GetUser().subscribe(x => {
+                  let currentUser : User = new User();
+                  currentUser = x;
+                  localStorage.setItem('user',JSON.stringify(currentUser));
+                  this.route.navigate(["/TrangChu"]).then(x => {
+                    window.location.reload();
+                  });
               });
+
             }
-        },
-        error: (err: HttpErrorResponse) => {
-          console.log(err);
-          this.invalidLogin = true;
-          window.location.reload();
+            else{
+              this.ShowErrorMessage(response.message);
+              this.invalidLogin = true;
+            }
         }
       });
   }
