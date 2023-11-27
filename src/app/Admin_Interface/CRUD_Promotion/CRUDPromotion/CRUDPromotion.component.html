@@ -11,7 +11,7 @@
         placeholder="Tìm kiếm...">
 
 
-      <button (click)="EditPromotion.Showpopup()" class="btn btn-warning">Thêm ưu đãi mới</button>
+      <button (click)="EditPromotion.Showpopup('add')" class="btn btn-warning">Thêm ưu đãi mới</button>
     </div>
   </div>
 
@@ -21,21 +21,24 @@
         <th scope="col">ID</th>
         <th scope="col">Tên Ưu đãi</th>
         <th scope="col">Hình ảnh</th>
-        <th scope="col">thời gian áp dụng</th>
-        <th scope="col">Thời gian còn lại</th>
+        <th scope="col">Ngày tạo</th>
+        <th scope="col">Ngày hết hạn</th>
         <th scope="col">Tình trạng</th>
         <th scope="col">Tùy chọn</th>
       </tr>
     </thead>
     <tbody>
-      <ng-container *ngFor="let menuCategory of menuCategoriesview">
+      <ng-container *ngFor="let promotionItem of promotionsview">
         <tr>
-          <td>{{menuCategory.menuCategory_Id}}</td>
-          <td>{{menuCategory.categoryName}}</td>
-          <td class="align-middle-checkbox"><input type="checkbox" [checked]="menuCategory.state" disabled></td>
+          <td>{{promotionItem.promotion_Id}}</td>
+          <td>{{promotionItem.promotionName}}</td>
+          <td class="align-middle-checkbox"><button (click)="openImage(promotionItem.promotionImage)" class="btn btn-danger"><i class="bi bi-card-image"></i></button></td>
+          <td class="align-middle-checkbox">{{promotionItem.createDate | date:'dd-MM-yyyy' }}</td>
+          <td class="align-middle-checkbox">{{promotionItem.expirationDate | date:'dd-MM-yyyy' }}</td>
+          <td class="align-middle-checkbox"><input type="checkbox" [checked]="promotionItem.state" disabled></td>
           <td>
-            <button (click)="ShowHideRemoveConfirm(menuCategory)" type="button" class="btn btn-danger me-2">Xóa</button>
-            <button (click)="ShowHidePopUpMenuEdit(menuCategory)" type="button" class="btn btn-primary me-2">Sửa</button>
+            <button (click)="ShowHideRemoveConfirm(promotionItem)" type="button" class="btn btn-danger me-2">Xóa</button>
+            <button (click)="ShowHidePopUpMenuEdit(promotionItem)" type="button" class="btn btn-primary me-2">Sửa</button>
           </td>
         </tr>
       </ng-container>
@@ -50,11 +53,11 @@
   <app-Pagination  [pageIndex]="pageIndex" [totalPage]="totalPage"
     (eventPage)="ChangePage($event)"></app-Pagination>
 </div>
-<app-SuaDanhMucThucDon #SuaPopUp>
+<!-- <app-SuaDanhMucThucDon #SuaPopUp>
 </app-SuaDanhMucThucDon>
 
 <app-ThemDanhMucThucDon #ThemPopUp>
-</app-ThemDanhMucThucDon>
+</app-ThemDanhMucThucDon> -->
 <app-XacNhanXoaPopUp  #XacNhanXoa
   [removeItemDataId]="removeItemData.menuCategory_Id"
   (onRemoveItem) = "onRemove($event)">
@@ -64,3 +67,4 @@
 <app-XacNhanXoaPopUp #XacNhanXoa (onRemoveItem) = "onRemove($event)" ></app-XacNhanXoaPopUp>
 <app-LoadingScreen #loading></app-LoadingScreen>
 <app-Edit-Promotion #EditPromotion></app-Edit-Promotion>
+<app-ImagePopup #imagepopup></app-ImagePopup>

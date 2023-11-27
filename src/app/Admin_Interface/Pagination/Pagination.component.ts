@@ -25,6 +25,7 @@ export class PaginationComponent implements OnInit,OnChanges, AfterContentChecke
   }
   ngOnChanges(changes: SimpleChanges): void {
       console.log(this.pageIndex);
+      this.CheckPage();
       this.PageSize();
   }
   public PageSize():void{
@@ -43,14 +44,21 @@ export class PaginationComponent implements OnInit,OnChanges, AfterContentChecke
   }
   private CheckPage():void{
 
-      if(this.pageIndex === 1){
+      if(this.totalPage == 1){
+        this.prelock = true;
+        this.nextlock = true;
+      }
+      else{
+         if(this.pageIndex === 1){
           this.prelock = true;
           this.nextlock = false;
+          }
+          if(this.pageIndex === this.totalPage){
+              this.nextlock = true;
+              this.prelock = false;
+          }
       }
-      if(this.pageIndex === this.totalPage){
-          this.nextlock = true;
-          this.prelock = false;
-      }
+
       // if(this.totalPage == 1){
       //   this.nextlock = true;
       //   this.prelock = true;
@@ -59,19 +67,19 @@ export class PaginationComponent implements OnInit,OnChanges, AfterContentChecke
   }
   public ChangePagePreNext(condition: string){
       if(condition === "PRE"){
-        this.pageIndex -= 1;
         this.CheckPage();
+        this.pageIndex -= 1;
         this.eventPage.emit(this.pageIndex);
 
       }
       else{
+        this.CheckPage();
           this.pageIndex += 1;
-          this.CheckPage();
           this.eventPage.emit(this.pageIndex);
       }
   }
   ngOnInit() {
-
+      this.CheckPage();
   }
 
 }

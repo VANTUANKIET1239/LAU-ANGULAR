@@ -8,6 +8,7 @@ export class Promotion {
   public expirationDate: Date;
   public createDate: Date;
   public state: boolean;
+  public imagePath: string;
   public promotionDetails: PromotionDetail[]
 
     constructor(
@@ -18,7 +19,8 @@ export class Promotion {
       expirationDate?: Date,
       createDate?: Date,
       promotionDetails?: PromotionDetail[],
-      state?: boolean
+      state?: boolean,
+      imagePath?:string
   ) {
       this.promotion_Id = promotion_Id ?? "";
       this.promotionImage = promotionImage ?? "";
@@ -28,6 +30,7 @@ export class Promotion {
       this.createDate = createDate ?? new Date();
       this.promotionDetails = promotionDetails ?? [];
       this.state = state ?? true;
+      this.imagePath = imagePath ?? "";
   }
     set Promotion_Id(value: string) {
       this.promotion_Id = value;
@@ -40,6 +43,9 @@ export class Promotion {
   }
   set PromotionDetails(value: PromotionDetail[]) {
     this.promotionDetails = value;
+  }
+  set ImagePath(value: string) {
+    this.imagePath = value;
   }
 
 

@@ -32,7 +32,7 @@ constructor(private httpclient: HttpClient) { }
   };
   public GetPromotions(): Observable<Promotion[]>{
     const url = `${this.REST_API_SERVER}/GetPromotions`;
-    return this.httpclient.post<Promotion[]>(url,this.httpOptions);
+    return this.httpclient.get<Promotion[]>(url,this.httpOptions);
   };
   public RemovePromotion(promotionId: string): Observable<any>{
     const url = `${this.REST_API_SERVER}/RemovePromotionCategory`;
@@ -49,6 +49,7 @@ constructor(private httpclient: HttpClient) { }
     }
     return  this.httpclient.post<any>(url,formData);
   };
+
   // public RemoveMenu(menu:Menu): Observable<any>{
   //   const url = `${this.REST_API_SERVER}/RemoveMenu`;
   //   const headers = new HttpHeaders({

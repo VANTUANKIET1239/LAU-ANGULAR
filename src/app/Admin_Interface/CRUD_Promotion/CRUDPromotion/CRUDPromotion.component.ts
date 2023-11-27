@@ -6,6 +6,11 @@ import { ThemThucDonPopUpComponent } from '../../CRUDMenu/ThemThucDonPopUp/ThemT
 import { XacNhanXoaPopUpComponent } from 'src/app/UiTools/XacNhanXoaPopUp/XacNhanXoaPopUp.component';
 import { MenuService } from 'src/app/Services/MenuService/Menu.service';
 import { MenuCategoryService } from 'src/app/Services/MenuCategoryService/MenuCategory.service';
+import { Promotion } from 'src/app/Models/Promotion';
+import { PromotionService } from 'src/app/Services/PromotionService/Promotion.service';
+import { ImagePopupComponent } from 'src/app/UiTools/ImagePopup/ImagePopup/ImagePopup.component';
+import { EditPromotionComponent } from '../Edit-Promotion/Edit-Promotion/Edit-Promotion.component';
+import { LoadingScreenComponent } from 'src/app/UiTools/Loading/LoadingScreen/LoadingScreen.component';
 
 @Component({
   selector: 'app-CRUDPromotion',
@@ -16,9 +21,9 @@ export class CRUDPromotionComponent implements OnInit {
 
   public categoryName: string = "";
 
-  public menuCategories: MenuCategory[] = [];
-  public menuCategoriesPage: MenuCategory[] = [];
-  public menuCategoriesview:MenuCategory[] = [];
+  public promotions: Promotion[] = [];
+  public promotionsPage: Promotion[] = [];
+  public promotionsview:Promotion[] = [];
 
   public pageIndex:number = 1;
   public pageSize:number = 4;
@@ -28,17 +33,16 @@ export class CRUDPromotionComponent implements OnInit {
   public removeItemData: MenuCategory  = new MenuCategory('','',true);
   public isLoading:boolean;
 
-  @ViewChild('SuaPopUp') SuaPopUp!:SuaDanhMucThucDonComponent
-
-  @ViewChild('ThemPopUp') ThemPopUp!: ThemThucDonPopUpComponent;
-
   @ViewChild('XacNhanXoa') XacNhanXoa!: XacNhanXoaPopUpComponent;
-  @ViewChild('loading') loading!: ThemThucDonPopUpComponent;
-  @ViewChild('EditPromotion') EditPromotion!: ThemThucDonPopUpComponent;
+  @ViewChild('loading') loading!: LoadingScreenComponent;
+  @ViewChild('EditPromotion') EditPromotion!: EditPromotionComponent;
+  @ViewChild('imagepopup') imagepopup!: ImagePopupComponent;
 
   constructor(private route:ActivatedRoute,
               private menuService: MenuService,
-              private menucategoryservice: MenuCategoryService) {
+              private menucategoryservice: MenuCategoryService
+              ,private promotionService: PromotionService
+              ) {
                 this.isLoading = true;
               }
   ngOnChanges(changes: SimpleChanges): void {
@@ -48,19 +52,19 @@ export class CRUDPromotionComponent implements OnInit {
   ngOnInit() {
     this.categoryName = <string> this.route.snapshot.paramMap.get("name");
 
-    this.menucategoryservice.GetMenuCategories().subscribe((data) =>{
+    this.promotionService.GetPromotions().subscribe((data) =>{
       // this.menus.push(...data);
-       this.menuCategories = data;
-       this.Pagination(this.menuCategories);
+       this.promotions = data;
+       this.Pagination(this.promotions);
        this.isLoading = false;
     });
 
   }
-  public Pagination(listitem:MenuCategory[]){
+  public Pagination(listitem:Promotion[]){
 
-      let newitem:MenuCategory[] = [];
+      let newitem:Promotion[] = [];
       let count = 0;
-      this.menuCategoriesPage = listitem;
+      this.promotionsPage = listitem;
       for(let i = (this.pageIndex - 1) * this.pageSize; i < listitem.length; i++){
         if(count == this.pageSize){
             break;
@@ -69,30 +73,29 @@ export class CRUDPromotionComponent implements OnInit {
         count++;
 
      }
-     this.totalCount = this.menuCategoriesPage.length;
+     this.totalCount = this.promotionsPage.length;
      this.totalPage = Math.ceil(this.totalCount/this.pageSize) == 0 ? 1 : Math.ceil(this.totalCount/this.pageSize);
-      this.menuCategoriesview = newitem;
+      this.promotionsview = newitem;
 
   }
   public ChangePage(event:any):void{
       this.pageIndex = event;
-      this.Pagination(this.menuCategoriesPage);
+      this.Pagination(this.promotionsPage);
   }
   public ShowHidePopUpMenu(){
      this.EditPromotion.HideorShowPopup();
   }
-  public ShowHidePopUpMenuEdit(Menu:MenuCategory){
-    this.SuaPopUp.HideorShowPopup(Menu);
+  public ShowHidePopUpMenuEdit(promotion:Promotion){
+    this.EditPromotion.OpenEdit(promotion.promotion_Id);
   }
-  public ShowHideRemoveConfirm(removeMenu:MenuCategory){
-        this.removeItemData =  removeMenu;
-        this.XacNhanXoa.ShowOrHidePopUp();
+  public ShowHideRemoveConfirm(removePromotion:Promotion){
+      this.XacNhanXoa.ShowOrHidePopUp2(removePromotion.promotion_Id);
   }
 
   public onSearch(content:string){
      var contentuppdercase = content.toUpperCase();
-     let searchlist:MenuCategory[] = [];
-     searchlist = this.menuCategories.filter(x => x.categoryName.toUpperCase().includes(contentuppdercase));
+     let searchlist:Promotion[] = [];
+     searchlist = this.promotions.filter(x => x.PromotionName.toUpperCase().includes(contentuppdercase));
      this.pageIndex = 1;
      this.Pagination(searchlist);
   }
@@ -105,6 +108,10 @@ export class CRUDPromotionComponent implements OnInit {
           }
       });
 
+  }
+  openImage(image:string | Uint8Array){
+      this.imagepopup.SetImage(image);
+      this.imagepopup.Showpopup();
   }
 
 

@@ -99,14 +99,15 @@ onFileSelected(event: any) {
   }
 
 
-  OpenEditAddress(promotionId:string){
+  OpenEdit(promotionId:string){
 
     this.promotionService.GetPromotion(promotionId).subscribe(x => {
         this.PromotionModel = x;
+        this.PromotionImage = 'data:image/jpeg;base64,' + x.promotionImage;
         this.CreateNewForm(this.PromotionModel);
         this.PatchContentValue(this.PromotionModel);
+        this.imagePath = this.PromotionModel.imagePath;
         this.Showpopup('edit');
-
     });
 
   }
@@ -114,10 +115,17 @@ onFileSelected(event: any) {
     this.hidePopUp = !this.hidePopUp;
     this.lockScroll(this.hidePopUp);
     this.saveTitle = "Sửa ưu đãi";
-    this.HideorShowPopup();
+   // this.HideorShowPopup();
       if(type && type != 'edit'){
         this.PromotionModel =  new Promotion();
         this.dataform.reset();
+        this.contentArrays.clear();
+        this.dataform.patchValue({
+          expirationDate  : formatDate(new Date(), 'yyyy-MM-dd', 'en'),
+          createDate: formatDate(new Date(), 'yyyy-MM-dd', 'en'),
+        });
+        console.log(this.dataform);
+        this.PromotionImage = "../../../../../assets/Image/DefaultImage.png";
         this.saveTitle = "Thêm ưu đãi";
       }
 
@@ -142,16 +150,18 @@ onFileSelected(event: any) {
       contentArr.controls.forEach(x => {
         let item = x.value;
         let modelDTitem:PromotionDetail = new PromotionDetail();
+        modelDTitem.promotionDetail_Id = item.promotionDetail_Id;
         modelDTitem.content = item.content;
         modelDT.push(modelDTitem);
       });
       this.PromotionModel.promotionName = formValue.promotionName;
       this.PromotionModel.createDate = formValue.createDate;
       this.PromotionModel.expirationDate = formValue.expirationDate;
-      this.PromotionModel.PromotionDetails = modelDT;
+      this.PromotionModel.promotionDetails = modelDT;
+      this.PromotionModel.ImagePath = this.imagePath;
       console.log(this.PromotionModel);
       var kiet = this.PromotionModel;
-        if(this.PromotionModel.promotion_Id || this.PromotionModel.promotion_Id == ''){
+        if(!this.PromotionModel.promotion_Id || this.PromotionModel.promotion_Id == ''){
             this.promotionService.CreatePromotion(this.PromotionModel,this.fileUpload).subscribe(res => {
               if(res.success){
                 alert("Thêm ưu đãi thành công");

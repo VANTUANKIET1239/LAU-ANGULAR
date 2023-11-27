@@ -63,6 +63,7 @@ import { DistrictService } from './Services/DistrictService/District.service';
 import { CRUDPromotionComponent } from './Admin_Interface/CRUD_Promotion/CRUDPromotion/CRUDPromotion.component';
 import { EditPromotionComponent } from './Admin_Interface/CRUD_Promotion/Edit-Promotion/Edit-Promotion/Edit-Promotion.component';
 import { PromotionService } from './Services/PromotionService/Promotion.service';
+import { ImagePopupComponent } from './UiTools/ImagePopup/ImagePopup/ImagePopup.component';
 
 
 
@@ -122,7 +123,9 @@ export function tokenGetter() {
       LoadingScreenComponent,
       TransformTextPipe,
       CRUDPromotionComponent,
-      EditPromotionComponent
+      EditPromotionComponent,
+      ImagePopupComponent
+
     // SelectCustomComponent
 
   ],
@@ -150,7 +153,8 @@ export function tokenGetter() {
     CityService,
     WardService,
     DistrictService,
-    PromotionService
+    PromotionService,
+    DatePipe
 
   ],
   bootstrap: [AppComponent]

@@ -1,0 +1,16 @@
+<div id="bg-modal" *ngIf="hidePopUp">
+  <div id="bg-content" class="p-4">
+    <div class="row mb-3">
+      <div class="col-11 d-flex align-items-center">
+        <h3 style="margin: 0;">Xem ảnh</h3>
+      </div>
+      <div class="col-1 d-flex justify-content-end">
+        <button (click)="Showpopup()" id="x-click"><i class='bx bx-x bx-lg' undefined></i></button>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center align-items-center">
+      <img class="img-fluid" [src]="image" alt="No content" style="width: 30%;height: 30%">
+    </div>
+  </div>
+</div>
+
