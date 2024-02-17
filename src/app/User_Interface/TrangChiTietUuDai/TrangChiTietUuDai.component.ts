@@ -1,46 +1,39 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Promotion } from 'src/app/Models/Promotion';
+import { PromotionService } from 'src/app/Services/PromotionService/Promotion.service';
+import { CuaHangPopUpComponent } from './CuaHangPopUp/CuaHangPopUp.component';
+import { DoiUuDaiPopUpComponent } from './DoiUuDaiPopUp/DoiUuDaiPopUp.component';
+import { ComponentBase } from 'src/app/ComponentBase/componentBase';
 
 @Component({
   selector: 'app-TrangChiTietUuDai',
   templateUrl: './TrangChiTietUuDai.component.html',
   styleUrls: ['./TrangChiTietUuDai.component.css']
 })
-export class TrangChiTietUuDaiComponent implements OnInit {
+export class TrangChiTietUuDaiComponent extends ComponentBase implements OnInit {
 
-  constructor() { }
+  public promotionModel:Promotion = new Promotion();
+  constructor(private route: ActivatedRoute
+              , private promotionService: PromotionService
+    ) {
+        super();
+   }
   public ispopupCH = false;
   public ispopupUuDai = false;
   public isScrollLocked = false;
-  
+   @ViewChild("CuaHangPopUp") public CuaHangPopUp!:CuaHangPopUpComponent;
+   @ViewChild("DoiUuDaiPopUp") public DoiUuDaiPopUp!:DoiUuDaiPopUpComponent;
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      // Access the 'id' parameter
+      let id = params['id'];
+      this.promotionService.GetPromotion(id).subscribe(x => {
+            this.promotionModel = x;
+      });
+      // Do something with the id
+    });
   }
-  public popupCH(nd:string){
-    if(nd == "CH"){
-      this.ispopupCH = true;
-      this.lockScroll();
-     }
-     else {
-      this.ispopupUuDai = true;
-      this.lockScroll();
-     }     
-  }
-  public popupCHhide(nd:string){     
-       if(nd == "CH"){
-        this.ispopupCH = false;
-        this.unlockScroll();
-       }
-       else {
-        this.ispopupUuDai = false;
-        this.unlockScroll();
-       }          
-  }
-  public lockScroll() {
-    this.isScrollLocked = true;
-    document.body.style.overflow = 'hidden';
-  }
-  
-  public unlockScroll() {
-    this.isScrollLocked = false;
-    document.body.style.overflow = '';
-  }
+
+
 }

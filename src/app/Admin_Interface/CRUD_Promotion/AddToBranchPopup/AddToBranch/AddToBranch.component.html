@@ -1,0 +1,45 @@
+<div id="bg-modal" *ngIf="hidePopUp">
+  <div id="bg-content" class="p-4">
+    <div class="d-flex flex-row">
+      <div class="col-11 d-flex align-items-center">
+        <h3 style="margin: 0;">Thêm danh mục thực đơn</h3>
+      </div>
+      <div class="col-1 d-flex justify-content-end">
+        <button (click)="Showpopup()" id="x-click"><i class='bx bx-x bx-lg' undefined></i></button>
+      </div>
+    </div>
+    <div class="alert {{notificationModel.condition}} d-flex align-items-center" role="alert" *ngIf="notificationModel.isValid">
+      <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+      <div>
+        {{notificationModel.message}}
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center p-3">
+        <button class="btn btn-danger" (click)="AddToBranchs()">Xác nhận</button>
+    </div>
+   <ng-container *ngFor="let item of listBranch">
+    <div class="card shadow custom-border-card mb-3">
+      <div class="card-body">
+       <div class="row">
+            <div class="col-10">
+              <h5 style="font-weight: bold;">
+                {{item.branchName}}
+            </h5>
+            <p style="color: gray;">
+              {{item.addressDetail}}, {{item.wardName}}, {{item.districtName}}, {{item.cityName}},
+            </p>
+            </div>
+            <div class="col-2 align-middle-checkbox d-flex justify-content-center align-items-center">
+              <input type="checkbox" (change)="onCheckBranch($event,item.branch_Id)">
+            </div>
+       </div>
+        <!-- <div class="d-flex flex-row">
+          <a href="" class="btn btn-secondary me-3 text-decoration-underline">{{item.phone}}</a>
+          <a href="" class="btn me-3 btn-dark" style="color: white;">Xem bản đồ</a>
+          <a href="" class="btn" style="background: #db3d23;color: white;">Đặt bàn</a>
+        </div> -->
+      </div>
+    </div>
+   </ng-container>
+  </div>
+</div>

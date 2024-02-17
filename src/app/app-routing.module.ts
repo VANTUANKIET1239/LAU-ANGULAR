@@ -25,6 +25,7 @@ import { CRUDMenuComponent } from './Admin_Interface/CRUDMenu/CRUDMenu.component
 import { CRUDMenuCategoryComponent } from './Admin_Interface/CRUDMenuCategory/CRUDMenuCategory.component';
 import { AuthGuard } from './Guard/jwt-guard.guard';
 import { CRUDPromotionComponent } from './Admin_Interface/CRUD_Promotion/CRUDPromotion/CRUDPromotion.component';
+import { CRUDBranchComponent } from './Admin_Interface/CRUD_Branch/CRUDBranch/CRUDBranch.component';
 
 
 const routes: Routes = [
@@ -43,6 +44,7 @@ const routes: Routes = [
     {path:'CRUDMenu/:name', component:CRUDMenuComponent},
     {path:'CRUDMenuCategory/:name', component:CRUDMenuCategoryComponent},
     {path:'CRUDPromotion/:name', component:CRUDPromotionComponent},
+    {path:'CRUDBranch/:name', component:CRUDBranchComponent},
   ],
   canActivate: [AuthGuard]
 
@@ -50,7 +52,7 @@ const routes: Routes = [
   {path:'User', component:GiaoDienCaNhanComponent,
     children:[
     {path:'ThongTinCaNhan', component:ThongTinCaNhanComponent, canActivate: [AuthGuard]
-  },
+    },
     {path:'UuDaiCuaToi', component:UuDaiCuaToiComponent, canActivate: [AuthGuard]
   },
     {path:'LichSuGiaoHang', component:LichSuGiaoHangComponent, canActivate: [AuthGuard]
@@ -65,7 +67,7 @@ const routes: Routes = [
   {path:'UuDai', component:TrangUuDaiComponent,pathMatch:'full' },
   {path:'ChiTietGiaoHang', component:ChiTietLSDatHangComponent,pathMatch:'full' },
   {path:'GioHang', component:TrangGioHangComponent,pathMatch:'full' },
-  {path:'ChiTietUuDai', component:TrangChiTietUuDaiComponent,pathMatch:'full' },
+  {path:'ChiTietUuDai/:id', component:TrangChiTietUuDaiComponent,pathMatch:'full' },
   {path:'**', component:CarouselSliderComponent,pathMatch:'full' },
 ];
 

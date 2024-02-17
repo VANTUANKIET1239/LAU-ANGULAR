@@ -1,10 +1,12 @@
 import { formatDate } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { finalize } from 'rxjs';
 import { NotificationModel } from 'src/app/Models/NotificationModel';
 import { Promotion } from 'src/app/Models/Promotion';
 import { PromotionDetail } from 'src/app/Models/Promotion_Detail';
 import { PromotionService } from 'src/app/Services/PromotionService/Promotion.service';
+import { LoadingScreenComponent } from 'src/app/UiTools/Loading/LoadingScreen/LoadingScreen.component';
 
 @Component({
   selector: 'app-Edit-Promotion',
@@ -19,6 +21,7 @@ export class EditPromotionComponent implements OnInit {
   public saveTitle: string = '';
   public PromotionModel: Promotion = new Promotion();
   public notificationModel: NotificationModel = new NotificationModel();
+  @ViewChild('loading') loading!: LoadingScreenComponent;
 
   @ViewChild("hinhanhmenu",{ static: false }) public elelinkimg!:ElementRef<HTMLInputElement>;
   public fileUpload!: File;
@@ -161,8 +164,12 @@ onFileSelected(event: any) {
       this.PromotionModel.ImagePath = this.imagePath;
       console.log(this.PromotionModel);
       var kiet = this.PromotionModel;
+      this.loading.SetLoading(true);
         if(!this.PromotionModel.promotion_Id || this.PromotionModel.promotion_Id == ''){
-            this.promotionService.CreatePromotion(this.PromotionModel,this.fileUpload).subscribe(res => {
+            this.promotionService.CreatePromotion(this.PromotionModel,this.fileUpload)
+            .pipe(finalize( () =>{this.loading.SetLoading(false)}) )
+            .subscribe
+            (res => {
               if(res.success){
                 alert("Thêm ưu đãi thành công");
                 this.dataform.reset();

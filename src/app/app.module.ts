@@ -64,6 +64,10 @@ import { CRUDPromotionComponent } from './Admin_Interface/CRUD_Promotion/CRUDPro
 import { EditPromotionComponent } from './Admin_Interface/CRUD_Promotion/Edit-Promotion/Edit-Promotion/Edit-Promotion.component';
 import { PromotionService } from './Services/PromotionService/Promotion.service';
 import { ImagePopupComponent } from './UiTools/ImagePopup/ImagePopup/ImagePopup.component';
+import { CRUDBranchComponent } from './Admin_Interface/CRUD_Branch/CRUDBranch/CRUDBranch.component';
+import { EditBranchComponent } from './Admin_Interface/CRUD_Branch/Edit-Branch/Edit-Branch/Edit-Branch.component';
+import { BranchService } from './Services/BranchService/Branch.service';
+import { AddToBranchComponent } from './Admin_Interface/CRUD_Promotion/AddToBranchPopup/AddToBranch/AddToBranch.component';
 
 
 
@@ -124,8 +128,10 @@ export function tokenGetter() {
       TransformTextPipe,
       CRUDPromotionComponent,
       EditPromotionComponent,
-      ImagePopupComponent
-
+      ImagePopupComponent,
+      CRUDBranchComponent,
+      EditBranchComponent,
+      AddToBranchComponent
     // SelectCustomComponent
 
   ],
@@ -154,7 +160,8 @@ export function tokenGetter() {
     WardService,
     DistrictService,
     PromotionService,
-    DatePipe
+    DatePipe,
+    BranchService
 
   ],
   bootstrap: [AppComponent]

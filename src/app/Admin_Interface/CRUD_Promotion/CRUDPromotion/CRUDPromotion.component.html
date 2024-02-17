@@ -14,7 +14,7 @@
       <button (click)="EditPromotion.Showpopup('add')" class="btn btn-warning">Thêm ưu đãi mới</button>
     </div>
   </div>
-
+  <div class="table-responsive">
   <table class="table table-bordered mt-3">
     <thead>
       <tr>
@@ -39,12 +39,14 @@
           <td>
             <button (click)="ShowHideRemoveConfirm(promotionItem)" type="button" class="btn btn-danger me-2">Xóa</button>
             <button (click)="ShowHidePopUpMenuEdit(promotionItem)" type="button" class="btn btn-primary me-2">Sửa</button>
+          <button (click)="AddToBranch.Showpopup(promotionItem.promotion_Id)" type="button"class="btn btn-secondary me-2">Thêm vào CN</button>
           </td>
         </tr>
       </ng-container>
       <!-- Thêm các hàng dữ liệu khác ở đây -->
     </tbody>
   </table>
+  </div>
   <div class="text-center w-100" *ngIf="isLoading">
     <div class="spinner-border text-danger" style="width: 3rem; height: 3rem;" role="status">
       <span class="visually-hidden">Loading...</span>
@@ -68,3 +70,4 @@
 <app-LoadingScreen #loading></app-LoadingScreen>
 <app-Edit-Promotion #EditPromotion></app-Edit-Promotion>
 <app-ImagePopup #imagepopup></app-ImagePopup>
+<app-AddToBranch #AddToBranch></app-AddToBranch>

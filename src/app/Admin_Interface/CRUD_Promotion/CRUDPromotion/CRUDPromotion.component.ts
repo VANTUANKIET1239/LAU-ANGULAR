@@ -11,6 +11,7 @@ import { PromotionService } from 'src/app/Services/PromotionService/Promotion.se
 import { ImagePopupComponent } from 'src/app/UiTools/ImagePopup/ImagePopup/ImagePopup.component';
 import { EditPromotionComponent } from '../Edit-Promotion/Edit-Promotion/Edit-Promotion.component';
 import { LoadingScreenComponent } from 'src/app/UiTools/Loading/LoadingScreen/LoadingScreen.component';
+import { AddToBranchComponent } from '../AddToBranchPopup/AddToBranch/AddToBranch.component';
 
 @Component({
   selector: 'app-CRUDPromotion',
@@ -37,10 +38,9 @@ export class CRUDPromotionComponent implements OnInit {
   @ViewChild('loading') loading!: LoadingScreenComponent;
   @ViewChild('EditPromotion') EditPromotion!: EditPromotionComponent;
   @ViewChild('imagepopup') imagepopup!: ImagePopupComponent;
+  @ViewChild('AddToBranch') AddToBranch!: AddToBranchComponent;
 
-  constructor(private route:ActivatedRoute,
-              private menuService: MenuService,
-              private menucategoryservice: MenuCategoryService
+  constructor(private route:ActivatedRoute
               ,private promotionService: PromotionService
               ) {
                 this.isLoading = true;
@@ -95,12 +95,13 @@ export class CRUDPromotionComponent implements OnInit {
   public onSearch(content:string){
      var contentuppdercase = content.toUpperCase();
      let searchlist:Promotion[] = [];
-     searchlist = this.promotions.filter(x => x.PromotionName.toUpperCase().includes(contentuppdercase));
+     console.log(this.promotions);
+     searchlist = this.promotions.filter(x => x.promotionName.toUpperCase().includes(contentuppdercase));
      this.pageIndex = 1;
      this.Pagination(searchlist);
   }
   onRemove(itemId:string){
-      this.menucategoryservice.RemoveMenuCategory(itemId).subscribe((response) => {
+      this.promotionService.RemovePromotion(itemId).subscribe((response) => {
           if(response.success){
             alert("Xóa thành công");
             this.XacNhanXoa.ShowOrHidePopUp();
@@ -113,7 +114,9 @@ export class CRUDPromotionComponent implements OnInit {
       this.imagepopup.SetImage(image);
       this.imagepopup.Showpopup();
   }
+  AddPromotionToBranch(){
 
+  }
 
 
 }

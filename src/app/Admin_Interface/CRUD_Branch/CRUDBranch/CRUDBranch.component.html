@@ -1,0 +1,80 @@
+<div class="row w-100 mt-3">
+  <div class="d-flex justify-content-center">
+    <h4>
+      {{categoryName}}
+    </h4>
+  </div>
+  <div class="row w-100">
+    <div id="filter-menu">
+
+      <input #searchbar type="text" (change)="onSearch(searchbar.value)" class="form-control "
+        placeholder="Tìm kiếm...">
+
+
+      <button (click)="EditBranch.Showpopup('add')" class="btn btn-warning">Thêm chi nhánh mới</button>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-bordered mt-3 table-striped">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Tên chi nhánh</th>
+          <th scope="col">Địa chỉ cụ thể</th>
+          <th scope="col">Phường</th>
+          <th scope="col">Quận</th>
+          <th scope="col">Thành phố</th>
+          <th scope="col">Điện thoại</th>
+          <th scope="col">Email</th>
+          <th scope="col">Giờ mở cửa</th>
+          <th scope="col">Tùy chọn</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let branchItem of branchsview">
+          <tr>
+            <td>{{branchItem.branch_Id}}</td>
+            <td>{{branchItem.branchName}}</td>
+            <td>{{branchItem.addressDetail}}</td>
+            <td>{{branchItem.wardName}}</td>
+            <td>{{branchItem.districtName}}</td>
+            <td>{{branchItem.cityName}}</td>
+            <td>{{branchItem.phone}}</td>
+            <td>{{branchItem.email}}</td>
+            <td>{{branchItem.openingTime}}</td>
+            <td class="align-middle-checkbox"><input type="checkbox" [checked]="branchItem.state" disabled></td>
+            <td>
+              <button (click)="ShowHideRemoveConfirm(branchItem)" type="button" class="btn btn-danger me-2">Xóa</button>
+              <button (click)="ShowHidePopUpMenuEdit(branchItem)" type="button"
+                class="btn btn-primary me-2">Sửa</button>
+              <!-- <button (click)="AddPromotionToBranch()" type="button"
+                class="btn btn-primary me-2">Thêm vào CN</button> -->
+            </td>
+          </tr>
+        </ng-container>
+        <!-- Thêm các hàng dữ liệu khác ở đây -->
+      </tbody>
+    </table>
+  </div>
+  <div class="text-center w-100" *ngIf="isLoading">
+    <div class="spinner-border text-danger" style="width: 3rem; height: 3rem;" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  <app-Pagination [pageIndex]="pageIndex" [totalPage]="totalPage" (eventPage)="ChangePage($event)"></app-Pagination>
+</div>
+<!-- <app-SuaDanhMucThucDon #SuaPopUp>
+</app-SuaDanhMucThucDon>
+
+<app-ThemDanhMucThucDon #ThemPopUp>
+</app-ThemDanhMucThucDon> -->
+<!-- <app-XacNhanXoaPopUp  #XacNhanXoa
+  [removeItemDataId]="removeItemData.menuCategory_Id"
+  (onRemoveItem) = "onRemove($event)">
+</app-XacNhanXoaPopUp> -->
+
+
+<app-XacNhanXoaPopUp #XacNhanXoa (onRemoveItem)="onRemove($event)"></app-XacNhanXoaPopUp>
+<app-LoadingScreen #loading></app-LoadingScreen>
+<app-Edit-Branch #EditBranch></app-Edit-Branch>
+<app-ImagePopup #imagepopup></app-ImagePopup>

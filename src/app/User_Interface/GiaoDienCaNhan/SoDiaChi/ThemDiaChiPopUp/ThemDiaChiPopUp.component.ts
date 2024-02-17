@@ -85,14 +85,14 @@ export class ThemDiaChiPopUpComponent implements OnInit {
       });
     }
     LoadLocationForEdit(address:Address){
-      this.districtService.GetDistrict_ByCityId(address.city).subscribe(res => {
-        this.listDistricts = res;
-       // console.log(this.listCities);
-    });
-    this.wardService.GetWards_ByDistrictId(address.district).subscribe(res => {
-      this.listWards = res;
-      //.log(this.listCities);
-  });
+          this.districtService.GetDistrict_ByCityId(address.city).subscribe(res => {
+            this.listDistricts = res;
+          // console.log(this.listCities);
+        });
+        this.wardService.GetWards_ByDistrictId(address.district).subscribe(res => {
+          this.listWards = res;
+          //.log(this.listCities);
+        });
     }
 
 

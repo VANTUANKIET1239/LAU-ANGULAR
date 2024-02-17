@@ -34,6 +34,11 @@ constructor(private httpclient: HttpClient) { }
     const url = `${this.REST_API_SERVER}/GetPromotions`;
     return this.httpclient.get<Promotion[]>(url,this.httpOptions);
   };
+
+   public GetPromotions_ByUser(): Observable<Promotion[]>{
+    const url = `${this.REST_API_SERVER}/GetPromotions_ByUser`;
+    return this.httpclient.get<Promotion[]>(url,this.httpOptions);
+  };
   public RemovePromotion(promotionId: string): Observable<any>{
     const url = `${this.REST_API_SERVER}/RemovePromotionCategory`;
     let removeItem = new FormData();
@@ -47,6 +52,21 @@ constructor(private httpclient: HttpClient) { }
     if(imageFile){
       formData.append('fromFile', imageFile, imageFile.name);
     }
+    return  this.httpclient.post<any>(url,formData);
+  };
+  public Promotion_AddToBranch(listBranchId:string[],promotionId: string): Observable<any>{
+    const url = `${this.REST_API_SERVER}/Promotion_AddToBranch`;
+    const formData = new FormData();
+    let listBranchIdConvert:string = listBranchId.join(',');
+    formData.append('listBranchId', listBranchIdConvert);
+    formData.append('promotionId', promotionId);
+    return  this.httpclient.post<any>(url,formData);
+  };
+
+  public Promotion_Redeem(promotionId: string): Observable<any>{
+    const url = `${this.REST_API_SERVER}/Promotion_Redeem`;
+    const formData = new FormData();
+    formData.append('promotionId', promotionId);
     return  this.httpclient.post<any>(url,formData);
   };
 

@@ -9,6 +9,8 @@ export class Promotion {
   public createDate: Date;
   public state: boolean;
   public imagePath: string;
+  public discountValue:number;
+  public redeemCount: number;
   public promotionDetails: PromotionDetail[]
 
     constructor(
@@ -20,7 +22,9 @@ export class Promotion {
       createDate?: Date,
       promotionDetails?: PromotionDetail[],
       state?: boolean,
-      imagePath?:string
+      imagePath?:string,
+      discountValue?:number,
+      redeemCount?: number
   ) {
       this.promotion_Id = promotion_Id ?? "";
       this.promotionImage = promotionImage ?? "";
@@ -31,6 +35,8 @@ export class Promotion {
       this.promotionDetails = promotionDetails ?? [];
       this.state = state ?? true;
       this.imagePath = imagePath ?? "";
+      this.discountValue = discountValue ?? 0;
+      this.redeemCount = redeemCount ?? 0;
   }
     set Promotion_Id(value: string) {
       this.promotion_Id = value;
@@ -46,6 +52,12 @@ export class Promotion {
   }
   set ImagePath(value: string) {
     this.imagePath = value;
+  }
+  set DiscountValue(value: number) {
+    this.discountValue = value;
+  }
+ set RedeemCount(value: number) {
+    this.redeemCount = value;
   }
 
 

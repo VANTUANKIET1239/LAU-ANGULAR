@@ -1,47 +1,45 @@
 <div class="row w-100 pt-5">
   <div class="col-lg-5">
-      <img style="height: 240px;" class="img-voucher img-fluid" src="../../../assets/Image/voucher (1).png" alt="No content">
+      <img style="height: 240px;" class="img-voucher img-fluid" [src]="'data:image/jpeg;base64,' + promotionModel.promotionImage" alt="No content">
   </div>
   <div class="col-lg-7">
       <div class="d-flex flex-column">
-          <h3>Coupon 50.000VNĐ</h3>
+          <h3>{{promotionModel.promotionName}}</h3>
           <br>
+
           <table class="table table-borderless">
               <tbody>
-                  <tr>
-                      <th>Kết thúc sau: </th>                     
+                  <!-- <tr>
+                      <th>Kết thúc sau: </th>
                       <td class="text-end">30:30:23</td>
-                     
-                  </tr>
+
+                  </tr> -->
                   <tr>
                       <th>Thời gian áp dụng</th>
-                      <td class="text-end">01/01/2023 - 31/12/2023</td>
+                      <td class="text-end">{{promotionModel.createDate | date:"dd/MM/yyyy"}} - {{promotionModel.expirationDate | date:"dd/MM/yyyy"}}</td>
                   </tr>
                   <tr>
                       <th>Hết hạn sau</th>
-                      <td class="text-end">179 ngày</td>
+                      <td class="text-end">{{calculateDaysDifference(promotionModel.expirationDate)}} ngày</td>
                   </tr>
               </tbody>
           </table>
           <div class="d-flex flex-wrap">
               <!-- <a routerLink="/ChiTietUuDai" class="btn btn-outline-warning flex-fill mb-2 mb-lg-0 me-lg-2">Xem Chi Tiết</a> -->
-              <button (click)="popupCH('UU')" class="btn flex-fill mb-2 mb-lg-0 me-lg-2" style="background: #db3d23;color: white;">Đổi 50,000 GCoin</button>
+              <button (click)="DoiUuDaiPopUp.Showpopup(promotionModel.promotion_Id)" class="btn flex-fill mb-2 mb-lg-0 me-lg-2" style="background: #db3d23;color: white;">Đổi {{promotionModel.discountValue | VNDCurrency:true}} GCoin</button>
           </div>
       </div>
   </div>
-</div> 
+</div>
 <div class="row mt-4">
     <h4>Nội Dung Chương Trình</h4>
-    <p>- Được áp dụng tại toàn bộ hệ thống nhà hàng Golden Gate và khi đặt hàng qua dịch vụ GDeli.vn toàn quốc (Không áp dụng đối với nhãn hàng iCook, Yutang và iPhở).</p>
-    <p>- Được áp dụng tại toàn bộ hệ thống nhà hàng Golden Gate và khi đặt hàng qua dịch vụ GDeli.vn toàn quốc (Không áp dụng đối với nhãn hàng iCook, Yutang và iPhở).</p>
-    <p>- Được áp dụng tại toàn bộ hệ thống nhà hàng Golden Gate và khi đặt hàng qua dịch vụ GDeli.vn toàn quốc (Không áp dụng đối với nhãn hàng iCook, Yutang và iPhở).</p>
-    <p>- Được áp dụng tại toàn bộ hệ thống nhà hàng Golden Gate và khi đặt hàng qua dịch vụ GDeli.vn toàn quốc (Không áp dụng đối với nhãn hàng iCook, Yutang và iPhở).</p>
-    <p>- Được áp dụng tại toàn bộ hệ thống nhà hàng Golden Gate và khi đặt hàng qua dịch vụ GDeli.vn toàn quốc (Không áp dụng đối với nhãn hàng iCook, Yutang và iPhở).</p>
-    <p>- Được áp dụng tại toàn bộ hệ thống nhà hàng Golden Gate và khi đặt hàng qua dịch vụ GDeli.vn toàn quốc (Không áp dụng đối với nhãn hàng iCook, Yutang và iPhở).</p>
-    <p>- Được áp dụng tại toàn bộ hệ thống nhà hàng Golden Gate và khi đặt hàng qua dịch vụ GDeli.vn toàn quốc (Không áp dụng đối với nhãn hàng iCook, Yutang và iPhở).</p>
+    <ng-container *ngFor="let item of promotionModel.promotionDetails">
+      <p>- {{item.content}}</p>
+    </ng-container>
+
     <br/>
-    <button (click)="popupCH('CH')" class="btn btn-dark w-25">Các cửa hàng áp dụng <i class='bx bxs-right-arrow'></i></button>
+    <button (click)="CuaHangPopUp.Showpopup(promotionModel.promotion_Id)" class="btn btn-dark w-25">Các cửa hàng áp dụng <i class='bx bxs-right-arrow'></i></button>
 </div>
 
-<app-CuaHangPopUp  (hidepop) = "popupCHhide('CH')" *ngIf="ispopupCH"></app-CuaHangPopUp>
-<app-DoiUuDaiPopUp (hidepop) = "popupCHhide('UU')" *ngIf="ispopupUuDai"></app-DoiUuDaiPopUp>
+<app-CuaHangPopUp #CuaHangPopUp></app-CuaHangPopUp>
+<app-DoiUuDaiPopUp #DoiUuDaiPopUp></app-DoiUuDaiPopUp>
