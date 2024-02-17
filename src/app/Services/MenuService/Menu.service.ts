@@ -28,6 +28,16 @@ constructor(private httpclient: HttpClient) { }
     const url = `${this.REST_API_SERVER}`;
     return this.httpclient.get<Menu[]>(url,this.httpOptions);
   };
+
+  public GetBestSellerMenus(): Observable<Menu[]>{
+    const url = `${this.REST_API_SERVER}/Menu_GetBestSellerItems`;
+    return this.httpclient.get<Menu[]>(url,this.httpOptions);
+  };
+
+  public GetHotDealMenus(): Observable<Menu[]>{
+    const url = `${this.REST_API_SERVER}/Menu_GetHotDealItems`;
+    return this.httpclient.get<Menu[]>(url,this.httpOptions);
+  };
   public GetMenu(menuid:string): Observable<Menu>{
     const url = `${this.REST_API_SERVER}/${menuid}`;
     return this.httpclient.get<Menu>(url,this.httpOptions);
